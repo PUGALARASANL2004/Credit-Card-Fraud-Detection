@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Fraud Detection Form</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .form-group {
+            width: calc(50% - 20px);
+            padding: 10px;
+        }
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #007bff;
+        }
+        input[type="submit"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Fraud Detection Form</h1>
+        <form action="{% url 'result' %}" method="GET">
+            {% csrf_token %}
+            <div class="form-group">
+                Time: <input type="text" required name="Time"><br><br>
+                V1: <input type="text" required name="V1"><br><br>
+                V2: <input type="text" required name="V2"><br><br>
+                V3: <input type="text" required name="V3"><br><br>
+                V4: <input type="text" required name="V4"><br><br>
+                V5: <input type="text" required name="V5"><br><br>
+                V6: <input type="text" required name="V6"><br><br>
+                V7: <input type="text" required name="V7"><br><br>
+                V8: <input type="text" required name="V8"><br><br>
+                V9: <input type="text" required name="V9"><br><br>
+                V10: <input type="text" required name="V10"><br><br>
+            </div>
+            <div class="form-group">
+                V11: <input type="text" required name="V11"><br><br>
+                V12: <input type="text" required name="V12"><br><br>
+                V13: <input type="text" required name="V13"><br><br>
+                V14: <input type="text" required name="V14"><br><br>
+                V15: <input type="text" required name="V15"><br><br>
+                V16: <input type="text" required name="V16"><br><br>
+                V17: <input type="text" required name="V17"><br><br>
+                V18: <input type="text" required name="V18"><br><br>
+                V19: <input type="text" required name="V19"><br><br>
+                V20: <input type="text" required name="V20"><br><br>
+            </div>
+            <div class="form-group">
+                V21: <input type="text" required name="V21"><br><br>
+                V22: <input type="text" required name="V22"><br><br>
+                V23: <input type="text" required name="V23"><br><br>
+                V24: <input type="text" required name="V24"><br><br>
+                V25: <input type="text" required name="V25"><br><br>
+                V26: <input type="text" required name="V26"><br><br>
+                V27: <input type="text" required name="V27"><br><br>
+                V28: <input type="text" required name="V28"><br><br>
+                Amount: <input type="text" required name="Amount"><br><br>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
