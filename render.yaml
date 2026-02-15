@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: fraud-detection-service
+    env: python
+    region: singapore 
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn DeployModel.wsgi:application"
+    rootDir: "DeployModel"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12
+      - key: RENDER
+        value: true

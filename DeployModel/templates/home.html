@@ -1,104 +1,492 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <title>Fraud Detection Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-dark: #4338ca;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --input-bg: #0f172a;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            background-image:
+                radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+                radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .form-container {
-            padding: 20px;
-            max-width: 800px;
+
+        .container {
+            max-width: 1200px;
             width: 100%;
+            padding: 40px 20px;
             margin: 0 auto;
         }
+
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
         h1 {
             text-align: center;
-            color: #333;
-        }
-        form {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        .form-group {
-            width: calc(50% - 20px);
-            padding: 10px;
-        }
-        input[type="text"] {
-            width: calc(100% - 20px);
-            padding: 10px;
+            color: white;
+            font-size: 2.5rem;
             margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
         }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        input[type="text"] {
+            padding: 12px 16px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
         input[type="text"]:focus {
-            border-color: #007bff;
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+            background-color: #1e293b;
         }
-        input[type="submit"] {
-            width: calc(100% - 20px);
-            padding: 10px;
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .actions {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
             border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: #fff;
+            padding: 16px 48px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
         }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            filter: brightness(1.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 640px) {
+            .card {
+                padding: 20px;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Chat Widget Styles */
+        .chat-widget-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), #c084fc);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chat-widget-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chat-window.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chat-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: auto;
+            height: auto;
+            box-shadow: none;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input-area {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: white;
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .chat-send {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+            box-shadow: none;
+        }
+
+        .chat-send:hover {
+            background: var(--primary-dark);
+            transform: none;
         }
     </style>
 </head>
+
 <body>
-    <div class="form-container">
-        <h1>Fraud Detection Form</h1>
-        <form action="{% url 'result' %}" method="GET">
-            {% csrf_token %}
-            <div class="form-group">
-                Time: <input type="text" required name="Time"><br><br>
-                V1: <input type="text" required name="V1"><br><br>
-                V2: <input type="text" required name="V2"><br><br>
-                V3: <input type="text" required name="V3"><br><br>
-                V4: <input type="text" required name="V4"><br><br>
-                V5: <input type="text" required name="V5"><br><br>
-                V6: <input type="text" required name="V6"><br><br>
-                V7: <input type="text" required name="V7"><br><br>
-                V8: <input type="text" required name="V8"><br><br>
-                V9: <input type="text" required name="V9"><br><br>
-                V10: <input type="text" required name="V10"><br><br>
-            </div>
-            <div class="form-group">
-                V11: <input type="text" required name="V11"><br><br>
-                V12: <input type="text" required name="V12"><br><br>
-                V13: <input type="text" required name="V13"><br><br>
-                V14: <input type="text" required name="V14"><br><br>
-                V15: <input type="text" required name="V15"><br><br>
-                V16: <input type="text" required name="V16"><br><br>
-                V17: <input type="text" required name="V17"><br><br>
-                V18: <input type="text" required name="V18"><br><br>
-                V19: <input type="text" required name="V19"><br><br>
-                V20: <input type="text" required name="V20"><br><br>
-            </div>
-            <div class="form-group">
-                V21: <input type="text" required name="V21"><br><br>
-                V22: <input type="text" required name="V22"><br><br>
-                V23: <input type="text" required name="V23"><br><br>
-                V24: <input type="text" required name="V24"><br><br>
-                V25: <input type="text" required name="V25"><br><br>
-                V26: <input type="text" required name="V26"><br><br>
-                V27: <input type="text" required name="V27"><br><br>
-                V28: <input type="text" required name="V28"><br><br>
-                Amount: <input type="text" required name="Amount"><br><br>
-            </div>
-            <input type="submit" value="Submit">
-        </form>
+    <div class="container">
+        <div class="card">
+            <h1>Fraud Detection System</h1>
+            <p class="subtitle">Secure, Real-time Transaction Analysis</p>
+            <form action="{% url 'result' %}" method="GET">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="text" name="Time" placeholder="Transaction Time" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="text" name="Amount" placeholder="Transaction Amount" required>
+                </div>
+
+                <!-- Features V1-V28 will be auto-generated for brevity in template loop if possible, but manual here -->
+                <div class="form-group"><label>V1</label><input type="text" name="V1" required></div>
+                <div class="form-group"><label>V2</label><input type="text" name="V2" required></div>
+                <div class="form-group"><label>V3</label><input type="text" name="V3" required></div>
+                <div class="form-group"><label>V4</label><input type="text" name="V4" required></div>
+                <div class="form-group"><label>V5</label><input type="text" name="V5" required></div>
+                <div class="form-group"><label>V6</label><input type="text" name="V6" required></div>
+                <div class="form-group"><label>V7</label><input type="text" name="V7" required></div>
+                <div class="form-group"><label>V8</label><input type="text" name="V8" required></div>
+                <div class="form-group"><label>V9</label><input type="text" name="V9" required></div>
+                <div class="form-group"><label>V10</label><input type="text" name="V10" required></div>
+                <div class="form-group"><label>V11</label><input type="text" name="V11" required></div>
+                <div class="form-group"><label>V12</label><input type="text" name="V12" required></div>
+                <div class="form-group"><label>V13</label><input type="text" name="V13" required></div>
+                <div class="form-group"><label>V14</label><input type="text" name="V14" required></div>
+                <div class="form-group"><label>V15</label><input type="text" name="V15" required></div>
+                <div class="form-group"><label>V16</label><input type="text" name="V16" required></div>
+                <div class="form-group"><label>V17</label><input type="text" name="V17" required></div>
+                <div class="form-group"><label>V18</label><input type="text" name="V18" required></div>
+                <div class="form-group"><label>V19</label><input type="text" name="V19" required></div>
+                <div class="form-group"><label>V20</label><input type="text" name="V20" required></div>
+                <div class="form-group"><label>V21</label><input type="text" name="V21" required></div>
+                <div class="form-group"><label>V22</label><input type="text" name="V22" required></div>
+                <div class="form-group"><label>V23</label><input type="text" name="V23" required></div>
+                <div class="form-group"><label>V24</label><input type="text" name="V24" required></div>
+                <div class="form-group"><label>V25</label><input type="text" name="V25" required></div>
+                <div class="form-group"><label>V26</label><input type="text" name="V26" required></div>
+                <div class="form-group"><label>V27</label><input type="text" name="V27" required></div>
+                <div class="form-group"><label>V28</label><input type="text" name="V28" required></div>
+
+                <div class="actions" style="gap: 10px; flex-wrap: wrap;">
+                    <button type="button" onclick="fillSafeData()"
+                        style="background: var(--success); opacity: 0.9;">Load Safe Data</button>
+                    <button type="button" onclick="fillFraudData()"
+                        style="background: var(--danger); opacity: 0.9;">Load Fraud Data</button>
+                    <button type="submit">Analyze Transaction</button>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="{% url 'upload_csv' %}" style="color: var(--primary); text-decoration: none;">Or Upload CSV
+                        File</a>
+                </div>
+
+
+            </form>
+        </div>
     </div>
+
+    <!-- Chat Widget HTML -->
+    <button class="chat-widget-btn" onclick="toggleChat()">
+        <span>💬</span>
+    </button>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h3>🤖 Fraud Assistant</h3>
+            <button class="chat-close" onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                Hello! I am your AI assistant. How can I help you with the Fraud Detection System today?
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..."
+                onkeypress="handleEnter(event)">
+            <button class="chat-send" onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+    <script>
+        function fillSafeData() {
+            document.querySelector('[name="Time"]').value = "0";
+            document.querySelector('[name="Amount"]').value = "10.00";
+            for (let i = 1; i <= 28; i++) {
+                document.querySelector(`[name="V${i}"]`).value = "0.1";
+            }
+        }
+
+        function fillFraudData() {
+            // Values derived from model analysis to trigger fraud alert
+            const fraudValues = {
+                'Time': 100000,
+                'Amount': 1000,
+                'V1': 5, 'V2': -5, 'V3': -5, 'V4': 5, 'V5': 5,
+                'V6': -5, 'V7': -5, 'V8': -5, 'V9': -5, 'V10': -5,
+                'V11': 5, 'V12': -5, 'V13': -5, 'V14': -5, 'V15': -5,
+                'V16': -5, 'V17': -5, 'V18': -5, 'V19': 5, 'V20': 5,
+                'V21': -5, 'V22': 5, 'V23': -5, 'V24': 5, 'V25': -5,
+                'V26': -5, 'V27': 5, 'V28': 5
+            };
+
+            for (const [key, value] of Object.entries(fraudValues)) {
+                const input = document.querySelector(`[name="${key}"]`);
+                if (input) input.value = value;
+            }
+        }
+
+        // Chat Widget Logic
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.classList.toggle('active');
+            if (chatWindow.classList.contains('active')) {
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        function handleEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Loading state
+            const loadingId = addMessage('Thinking...', 'bot', true);
+
+            // Send to backend
+            fetch(`/chat/?message=${encodeURIComponent(message)}`)
+                .then(response => response.json())
+                .then(data => {
+                    removeMessage(loadingId);
+                    addMessage(data.response, 'bot');
+                })
+                .catch(error => {
+                    removeMessage(loadingId);
+                    addMessage("Sorry, I'm having trouble connecting to the server.", 'bot');
+                });
+        }
+
+        function addMessage(text, sender, isLoading = false) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', sender);
+            msgDiv.textContent = text;
+            if (isLoading) {
+                msgDiv.id = 'loading-' + Date.now();
+                msgDiv.style.opacity = '0.7';
+            }
+            messagesDiv.appendChild(msgDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            return msgDiv.id;
+        }
+
+        function removeMessage(id) {
+            if (!id) return;
+            const msgElement = document.getElementById(id);
+            if (msgElement) msgElement.remove();
+        }
+    </script>
 </body>
+
 </html>

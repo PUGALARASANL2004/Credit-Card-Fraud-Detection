@@ -1,14 +1,10 @@
-# views.py
 
-from django.http import HttpResponse
 from django.shortcuts import render
+from django.http import JsonResponse
 import joblib
-# views.py
-
-from django.shortcuts import render
-# views.py
-
-from django.shortcuts import render
+import pandas as pd
+import numpy as np
+from .chatbot_logic import bot as fraud_bot
 
 def contact(request):
     return render(request, 'contact.html')
@@ -62,6 +58,50 @@ def result(request):
 
     # Perform prediction using the classifier
     ans = cls.predict([lis_numeric])
+    proba = cls.predict_proba([lis_numeric])[0][1] # Probability of class 1 (Fraud)
 
     # Pass the prediction result to the result.html template
-    return render(request, "result.html", {'ans': ans})
+    return render(request, "result.html", {'ans': ans, 'proba': proba})
+
+def upload_csv(request):
+    if request.method == 'POST' and request.FILES['file']:
+        try:
+            # Read CSV File
+            csv_file = request.FILES['file']
+            df = pd.read_csv(csv_file)
+            
+            # Ensure columns are in correct order for model (Time, V1..V28, Amount)
+            feature_cols = ['Time'] + [f'V{i}' for i in range(1, 29)] + ['Amount']
+            
+            # Check if all columns exist
+            if not all(col in df.columns for col in feature_cols):
+                return render(request, "upload.html", {'error': 'CSV must contain Time, V1-V28, and Amount columns.'})
+            
+            # Select and reorder columns
+            model_input = df[feature_cols]
+            
+            # Load Model
+            cls = joblib.load('fraud_model.sav')
+            
+            # Predict
+            predictions = cls.predict(model_input)
+            probabilities = cls.predict_proba(model_input)[:, 1] # Get fraud probability
+            
+            # Add results to DataFrame for display
+            df['Prediction'] = predictions
+            df['Probability'] = probabilities * 100 # Convert to percentage
+            
+            # Convert to list of dicts for template
+            results = df.to_dict(orient='records')
+            
+            return render(request, "upload_result.html", {'results': results, 'total_rows': len(results)})
+            
+        except Exception as e:
+            return render(request, "upload.html", {'error': str(e)})
+            
+    return render(request, "upload.html")
+
+def chat_bot(request):
+    msg = request.GET.get('message', '').lower()
+    response = fraud_bot.get_response(msg)
+    return JsonResponse({'response': response})
